@@ -1,0 +1,63 @@
+version: "3.7"
+services:
+    #Node Service
+    node:
+        image: node:alpine
+        container_name: personal-website-node
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - ./:/app
+        networks:
+            - personal-website
+        working_dir: /app
+        command: yarn watch
+
+    app:
+        build:
+            args:
+                user: admin
+                uid: 1000
+            context: ./
+            dockerfile: docker/dev/Dockerfile
+        image: travellist
+        container_name: personal-website-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - personal-website
+
+    mysql:
+        image: mysql:8.0
+        container_name: personal-website-mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: boilerplate
+            MYSQL_USER: appuser
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker/mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+        networks:
+            - personal-website
+        ports:
+            - "3312:3306"
+
+    nginx:
+        image: nginx:alpine
+        container_name: personal-website-nginx
+        restart: unless-stopped
+        ports:
+            - 8000:80
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx:/etc/nginx/conf.d/
+        networks:
+            - personal-website
+
+networks:
+    personal-website:
+        driver: bridge

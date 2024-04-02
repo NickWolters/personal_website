@@ -15,11 +15,15 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.32",
-        "tailwindcss": "^3.1.4"
+        "tailwindcss": "^3.1.4",
+        "vue": "^3.4.21",
+        "vue-loader": "^17.4.2"
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^5.0.2",
-        "vue": "^3.2.36",
-        "vue-loader": "^17.3.1"
+        "laravel-vite-plugin": "^1.0.2",
+        "valet": "^0.1.5-b",
+        "vite": "^5.1.4",
+        "vue-router": "^4.3.0"
     }
 }

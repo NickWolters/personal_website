@@ -3,8 +3,6 @@
 </template>
 <script>
 export default {
-    setup() {
-
-    }
+    name: 'App',
 }
 </script>
